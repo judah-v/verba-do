@@ -1,0 +1,52 @@
+{% extends 'tasks/base.html' %}
+{% block content %}
+
+<div class="card center-column bg-dark text-light">
+    <h1 class="text-center">Verba-Do</h1>
+</div>
+<div class="card center-column">
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        <ul>
+            {% for field, errors in form.errors.items %}
+                {% for error in errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <label for="id_username">Username:</label>
+        <input class="form-control" type="text" name="username" autofocus="" autocapitalize="none" autocomplete="username" maxlength="150" required id="id_username">
+        <label for="id_password">Password:</label>
+        <input class="form-control d-block" type="password" name="password" autocomplete="current-password" required id="id_password">
+        
+        <div class="d-flex mx-auto justify-content-center">
+            <button class="btn btn-success mx-1" type="submit">Log In</button>
+            <button id="createAccBtn" class="btn btn-primary mx-1" type="button">Create Account</button>
+        </div>
+        <input type="hidden" id="csrfToken"  name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+	  </form>
+    </form>
+</div>
+<script>
+    createAccBtn.onclick = ()=>{
+        fetch(Urls['createuser'](), {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrfToken.value,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                'name': JSON.stringify(id_username.value),
+                'password': JSON.stringify(id_password.value),
+            })
+
+        }).then(()=>{
+            location.assign(Urls['registration_success']())
+        })
+}
+</script>
+{% endblock %}

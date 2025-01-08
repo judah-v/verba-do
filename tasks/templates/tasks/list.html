@@ -1,0 +1,45 @@
+{% extends 'tasks/base.html' %}
+{% load static %}
+{% block content %}
+	<script src="{% static 'list.js' %}" type="text/javascript" defer></script>
+<div class="center-column">
+	<form method="post">
+		{% csrf_token %}
+		<input type="hidden" id="csrfToken"  name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+	  </form>
+	<form id="commandForm" action="{% url 'command' %}" method="POST">
+		{% csrf_token %}
+		<input id="command" type="hidden" name="prompt" value="">
+	</form>
+
+	<form id="create-task-form" method="POST" action="/">
+		{% csrf_token %}
+		{{form.title}}
+		<button id="micBtn" title="Record tasks" type="button" class="btn btn-outline-danger fa-solid fa-microphone fs-4 mb-1 mx-1"></button>
+		<button id="logoutBtn" title="Log Out" type="button" class="btn btn-outline-warning fa-solid fa-arrow-right-from-bracket fs-4 mb-1 "></button>
+		<input type="hidden" name="owner" id="owner" value="{{request.user.id}}">
+		<input class="btn btn-info" type="submit" name="Create Task" value="Create Task">
+	</form>
+
+	<div class="todo-list">
+
+	{% for task in tasks %}
+		
+			<div class="container d-inline-flex item-row w-100">
+			
+				{% if task.complete == True %}
+				<strike>{{task}}</strike>
+				{% else %}
+				<span class="">{{task}}</span>
+				{% endif %}
+				<span class="ms-auto">
+			
+					<a class="btn btn-sm btn-outline-info" href="{% url 'update_task' task.id %}"><i class="fa-regular fa-pen-to-square "></i></a>
+					<a class="btn btn-sm delBtn btn-danger" href="{% url 'delete' task.id %}"><i class="fa-solid fa-trash"></i></a>
+			
+				</span>
+		</div>
+	{% endfor %}
+	</div>
+</div>
+{% endblock content %}
