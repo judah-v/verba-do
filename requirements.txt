@@ -1,0 +1,15 @@
+attr==0.3.2
+backports.statistics==0.1.0
+cryptography==50.0.2
+Django==6.1.2
+docutils
+filelock==4.1.1
+h2==4.4.1
+keyring==25.7.0
+openai==3.29.0
+pyOpenSSL==26.4.0
+redis==8.1.0
+Sphinx
+typing_extensions==4.16.0
+django_js_reverse
+django-cors-headers

@@ -1,8 +1,9 @@
 import ast
+import os
 from openai import OpenAI
 from .models import Task
 
-setup = {"role": "system", "content": "You are trained to condense the items given to you into a python list object of tasks to be done in order of priority without numbers. Don't use a variable."}
+setup = {"role": "system", "content": "You are trained to condense the items given to you into a python list object of tasks to be done in order of priority without numbers. Don't use a variable. Don't split tasks unless explicitly requested to."}
 
 commands = {
             'complete': 
@@ -24,13 +25,14 @@ commands = {
 
 def update_tasklist(request):
     user_prompt = request.POST['prompt'].lower()
+    api_key = os.environ.get("OPENAI_API_KEY")
 
     if user_prompt.split()[0] != "action":
         client = OpenAI(
-        api_key="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")
+        api_key=api_key)
         response = client.chat.completions.create(
             messages = [setup, {"role": "user", "content": user_prompt}],
-            model="gpt-3.5-turbo",
+            model="gpt-6-luna",
         )
         try:
             tasks = ast.literal_eval(response.choices[0].message.content)
@@ -77,3 +79,4 @@ def update_tasklist(request):
                     task.delete()
         else:
             print(f'\n\n\nInvalid command: {user_prompt}\n\n\n')
+
