@@ -29,7 +29,7 @@ SECRET_KEY = '22nwt*-zjw_jxc3!ucc-(78z6n4zkg=vwdw86_z6)y0y7#00&8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -56,7 +56,17 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://verba-do.home',
+    'http://verba-do.home',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+]
+
 CORS_ALLOWED_ORIGINS = [
+    'http://verba-do.home',
+    'https://verba-do.home',
     'http://localhost:8000',
     'http://127.0.0.1:8000',
 ]
